@@ -1,0 +1,62 @@
+﻿@model IEnumerable<MVCStudent.Models.mvcStudentModel>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<br />
+
+<p>
+    <a href="@Url.Action("AddorEdit")" class="btn btn-default"><i class="fas fa-plus"></i> Create New</a>
+</p>
+<table class="table table-striped">
+    <thead class="table-heading">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address)
+                </td>
+                <td>
+                    <a href="@Url.Action("AddorEdit", "students", new { id=item.id })" class="btn btn-default"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    <a onclick="Delete(@item.id)" class="btn btn-default"><i class="fas fa-trash-alt"></i> Delete</a>
+                </td>
+            </tr>
+        }
+
+</table>
+
+@section scripts
+    {
+    <script>
+                $(function () {
+                    var successMessage = '@TempData["SuccesMessage"]'
+                    if (successMessage != '')
+                        alertify.success(successMessage);
+
+                });
+
+
+                function Delete(id){
+                    alertify.confirm('Web API','Are You Sure to Delete ?', function(){
+                            window.location.href='@Url.Action("Delete", "students")/'+id;
+
+                    }, null );
+                }
+
+    </script>
+
+}
